@@ -105,6 +105,16 @@ describe('method.send [ @E2E ]', function () {
             }
         });
 
+        it('errors when there is no connection', async function(){
+            try {
+                let _web3 = new Web3('ws://localhost:' + 8777); // Port DNE
+                await _web3.eth.getBlockNumber();
+                assert.fail();
+            } catch (err) {
+                assert(err.message.includes('connection not open'))
+            }
+        })
+
         it('errors on revert', async function () {
             try {
                 await instance
