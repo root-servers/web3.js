@@ -95,6 +95,13 @@ RequestManager.prototype.setProvider = function (p, net) {
 
     // listen to incoming notifications
     if(this.provider && this.provider.on) {
+
+        // Set emitter warning threshold a little higher
+        // Exactly 11 listeners get set, 1 more than allowed by default.
+        if (this.provider.setMaxListeners){
+            this.provider.setMaxListeners(20);
+        }
+
         this.provider.on('data', function requestManagerNotification(result, deprecatedResult){
             result = result || deprecatedResult; // this is for possible old providers, which may had the error first handler
 
